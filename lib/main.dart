@@ -15,10 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) {
-            return TransactionProvider();
-          }),
+        ChangeNotifierProvider(create: (context) {
+          return TransactionProvider();
+        }),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -52,43 +51,50 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return FormScreen();
-              }));
-            },
-          ),
-        ],
-      ),
-      body: ListView.builder(itemBuilder: (context, index) {
-        return Card(
-          elevation: 5,
-          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-          child: ListTile(
-            title: Text('รายการ $index'),
-            subtitle: Text('17/09/2024'),
-            leading: CircleAvatar(
-              radius: 30,
-              child: FittedBox(
-                child: Text('$index'),
-              ),
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          title: Text(widget.title),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return FormScreen();
+                }));
+              },
             ),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {},
-            ),
-          ),
+          ],
+        ),
+        body: Consumer(
+          builder: (context, TransactionProvider provider, Widget? child) {
+            return ListView.builder(
+              itemCount: provider.transactions.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 5,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                  child: ListTile(
+                    title: Text(provider.transactions[index].title),
+                    subtitle: Text(provider.transactions[index].date.toString()),
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: FittedBox(
+                        child: Text('${provider.transactions[index].amount}'),
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        )
+        // This trailing comma makes auto-formatting nicer for build methods.
         );
-      },),
-       // This trailing comma makes auto-formatting nicer for build methods.
-    );
   }
 }

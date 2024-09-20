@@ -8,13 +8,17 @@ class TransactionProvider with ChangeNotifier {
     Transaction(title: 'รองเท้า', amount: 1000, date: DateTime.now()),
   ];
 
-  List<Transaction> getTransaction(){
+  List<Transaction> getTransaction() {
     return transactions;
   }
 
-  void addTransaction(Transaction transaction){
+  void addTransaction(Transaction transaction) {
     transactions.add(transaction);
     notifyListeners();
   }
 
+  void deleteTransaction(int index) {
+    transactions.removeAt(index);
+    notifyListeners(); 
+  }
 }
