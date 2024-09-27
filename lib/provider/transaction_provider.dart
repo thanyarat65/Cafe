@@ -10,8 +10,9 @@ class TransactionProvider with ChangeNotifier {
   }
 
   void addTransaction(Transactions transaction) async{
-    var db = await TransactionDB(dbName: 'transactions.db').openDatabase();
-    transactions.insert(0,transaction);
+    var db = await TransactionDB(dbName: 'transactions.db');
+    var keyID = await db.insertDatabase(transaction);
+    this.transactions = await db.loadAllData();
     notifyListeners();
   }
 
