@@ -1,19 +1,17 @@
+import 'package:account/databases/transaction_db.dart';
 import 'package:flutter/foundation.dart';
-import 'package:account/models/transaction.dart';
+import 'package:account/models/transactions.dart';
 
 class TransactionProvider with ChangeNotifier {
-  List<Transaction> transactions = [
-    Transaction(title: 'หนังสือ', amount: 300, date: DateTime.now()),
-    Transaction(title: 'เสื้อ', amount: 500, date: DateTime.now()),
-    Transaction(title: 'รองเท้า', amount: 1000, date: DateTime.now()),
-  ];
+  List<Transactions> transactions = [];
 
-  List<Transaction> getTransaction() {
+  List<Transactions> getTransaction() {
     return transactions;
   }
 
-  void addTransaction(Transaction transaction) {
-    transactions.add(transaction);
+  void addTransaction(Transactions transaction) async{
+    var db = await TransactionDB(dbName: 'transactions.db').openDatabase();
+    transactions.insert(0,transaction);
     notifyListeners();
   }
 

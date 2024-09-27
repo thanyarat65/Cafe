@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:account/screens/form_screen.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:account/provider/transaction_provider.dart';
 
@@ -68,30 +69,38 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Consumer(
           builder: (context, TransactionProvider provider, Widget? child) {
-            return ListView.builder(
-              itemCount: provider.transactions.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 5,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-                  child: ListTile(
-                    title: Text(provider.transactions[index].title),
-                    subtitle: Text(provider.transactions[index].date.toString()),
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: FittedBox(
-                        child: Text('${provider.transactions[index].amount}'),
+            if (provider.transactions.isEmpty) {
+              return const Center(
+                child: Text('ไม่มีรายการ'),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: provider.transactions.length,
+                itemBuilder: (context, index) {
+                  var statement = provider.transactions[index];
+                  return Card(
+                    elevation: 5,
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                    child: ListTile(
+                      title: Text(statement.title),
+                      subtitle:
+                          Text(DateFormat('dd MMM yyyy hh:mm:ss').format(statement.date)),
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: FittedBox(
+                          child: Text('${statement.amount}'),
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {},
                       ),
                     ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {},
-                    ),
-                  ),
-                );
-              },
-            );
+                  );
+                },
+              );
+            }
           },
         )
         // This trailing comma makes auto-formatting nicer for build methods.

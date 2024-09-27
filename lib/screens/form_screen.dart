@@ -1,4 +1,4 @@
-import 'package:account/models/transaction.dart';
+import 'package:account/models/transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:account/provider/transaction_provider.dart';
@@ -56,7 +56,7 @@ class FormScreen extends StatelessWidget {
                           if (formKey.currentState!.validate())
                             {
                               // create transaction data object
-                              var statement = Transaction(
+                              var statement = Transactions(
                                   title: titleController.text,
                                   amount: double.parse(amountController.text),
                                   date: DateTime.now()
