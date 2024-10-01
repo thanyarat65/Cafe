@@ -1,4 +1,6 @@
+import 'package:account/main.dart';
 import 'package:account/models/transactions.dart';
+import 'package:account/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:account/provider/transaction_provider.dart';
@@ -25,7 +27,7 @@ class FormScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     labelText: 'ชื่อรายการ',
                   ),
-                  autofocus: true,
+                  autofocus: false,
                   controller: titleController,
                   validator: (String? str) {
                     if (str!.isEmpty) {
@@ -57,6 +59,7 @@ class FormScreen extends StatelessWidget {
                             {
                               // create transaction data object
                               var statement = Transactions(
+                                  keyID: "",
                                   title: titleController.text,
                                   amount: double.parse(amountController.text),
                                   date: DateTime.now()
@@ -67,7 +70,12 @@ class FormScreen extends StatelessWidget {
                               
                               provider.addTransaction(statement);
 
-                              Navigator.pop(context);
+                              Navigator.push(context, MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (context){
+                                  return MyHomePage();
+                                }
+                              ));
                             }
                         })
               ],

@@ -36,15 +36,21 @@ class TransactionDB{
   Future<List<Transactions>> loadAllData()async {
     var db = await this.openDatabase();
     var store = intMapStoreFactory.store('expense');
-    var snapshot = await store.find(db);
+    var snapshot = await store.find(db, finder: Finder(sortOrders: [SortOrder(Field.key, false)]));
     List<Transactions> transactions = [];
     for (var record in snapshot) {
       transactions.add(Transactions(
+        keyID: record.key.toString(),
         title: record['title'].toString(),
         amount: double.parse(record['amount'].toString()),
         date: DateTime.parse(record['date'].toString())
       ));
     }
     return transactions;
+  }
+  deleteDatabase(int index) async{
+    var db = await this.openDatabase();
+    var store = intMapStoreFactory.store('expense');
+    await store.delete(db, finder: Finder(filter: Filter.equals(Field.key, index)));
   }
 }
