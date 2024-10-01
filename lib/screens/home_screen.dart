@@ -39,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
             } else {
               return ListView.builder(
                 itemCount: provider.transactions.length,
-                
                 itemBuilder: (context, index) {
                   var statement = provider.transactions[index];
                   return Card(
@@ -59,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
-                          provider.deleteTransaction(index);
+                          provider.deleteTransaction(statement.keyID);
                         },
                       ),
                     ),

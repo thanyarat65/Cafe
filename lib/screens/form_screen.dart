@@ -59,7 +59,7 @@ class FormScreen extends StatelessWidget {
                             {
                               // create transaction data object
                               var statement = Transactions(
-                                  keyID: "",
+                                  keyID: null,
                                   title: titleController.text,
                                   amount: double.parse(amountController.text),
                                   date: DateTime.now()

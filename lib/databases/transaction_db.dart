@@ -40,7 +40,7 @@ class TransactionDB{
     List<Transactions> transactions = [];
     for (var record in snapshot) {
       transactions.add(Transactions(
-        keyID: record.key.toString(),
+        keyID: record.key,
         title: record['title'].toString(),
         amount: double.parse(record['amount'].toString()),
         date: DateTime.parse(record['date'].toString())
@@ -48,7 +48,7 @@ class TransactionDB{
     }
     return transactions;
   }
-  deleteDatabase(int index) async{
+  deleteDatabase(int? index) async{
     var db = await this.openDatabase();
     var store = intMapStoreFactory.store('expense');
     await store.delete(db, finder: Finder(filter: Filter.equals(Field.key, index)));
